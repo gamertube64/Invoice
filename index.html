@@ -7,10 +7,9 @@
     <style>
         .logo{
             position: relative;
+            top: -15px;
             max-width: 1500px;
             height: 100px;
-            margin: 0;
-            padding: 0;
         }
         body { font-family: 'Arial', sans-serif; background: #f0f0f0; padding: 20px; font-size: 12px; }
         .invoice-card { background: #fff; max-width: 850px; margin: auto; border: 1px solid #000; padding: 2px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
@@ -85,7 +84,7 @@
             <div class="bold"><h2>NAVEEN POWER SYSTEMS</h2></div>
             <p>A-6, Laxmi Garden, Delhi - Saharanpur Road, Opp-Shiv Dharam
                 Kanta, 2 no, Loni Ghaziabad UP- 201102, Ghaziabad, Uttar
-Pradesh, 201102</p>
+                Pradesh, 201102</p>
             <strong>GSTIN/UIN:</strong> <input type="text" value="09CEMPA6504H1ZK" id="myGSTIN" oninput="calculate()"style="width: 150px;"><br>
         </div>
         <div class="w-50 padding-5">
@@ -98,8 +97,8 @@ Pradesh, 201102</p>
                 <div class="w-50 padding-5">Mode of Payment<br><input type="text" value="Cash / Bank Transfer"></div>
             </div>
              <div class="flex">
-                <div class="w-50 padding-5 border-right">E-WAY number<br><input type="text" placeholder="e-way no."></div>
-                <div class="w-50 padding-5">vehicle number<br><input type="text" placeholder="vehicle no."></div>
+                <div class="w-50 padding-5 border-right">E-Way No.<br><input type="text" value="N/A"></div>
+                <div class="w-50 padding-5">Vehicle No.<br><input type="text" value="N/A" ></div>
             </div>
         </div>
             
@@ -110,7 +109,10 @@ Pradesh, 201102</p>
             <div class="bold">Buyer (Bill to)</div>
            <input type="text" id="buyerName" placeholder="Customer Name" class="bold" oninput="syncBuyer()"><br>
             <textarea rows="3" id="buyerAddress" placeholder="Customer Address" oninput="syncBuyer()"></textarea><br>
-            <strong>GSTIN/UIN:</strong> <input type="text"   id="clientGSTIN" placeholder="Customer GSTIN" oninput="calculate()" maxlength="15">
+            <strong>GSTIN/UIN:</strong> <input type="text" id="clientGSTIN"
+       placeholder="Customer GSTIN"
+       onblur="handleClientGSTIN()"
+         oninput="calculate()" maxlength="15">
         </div>
         <div class="w-50 padding-5">
             <div class="bold">Consignee (Ship to)</div>
@@ -142,14 +144,14 @@ Pradesh, 201102</p>
                 <td><input type="number" value="0" class="rate" oninput="calculate()"></td>
                 <td>
                     <select class="gst" onchange="calculate()">
-                        <option value="5">5%</option><option value="12">12%</option><option value="18" selected>18%</option><option value="28">28%</option>
+                        <option value="0">0%</option> <option value="5">5%</option><option value="12">12%</option><option value="18" selected>18%</option><option value="28">28%</option>
                     </select>
                 </td>
                 <td class="text-right">₹<span class="row-total">0.00</span></td>
             </tr>
         </tbody>
         <button class="add-row-btn" onclick="addRow()" style="margin: 5px;">+ Add Item</button>
-        <button class="add-row-btn" onclick="subRow()" style="margin: 5px;">- sub Item</button>
+        <button class="add-row-btn" onclick="subRow()" style="margin: 5px;">- Sub Item</button>
     </table>
 
     <div class="flex border-bottom">
@@ -159,6 +161,11 @@ Pradesh, 201102</p>
         </div>
         <div class="w-50">
             <table style="border: none;">
+               <tr>
+   <td>Taxable value</td>
+   <td class="text-right">₹ <span id="taxableValue">0.00</span></td>
+</tr>
+
                 <tr id="cgstRow"><td>CGST</td><td class="text-right">₹<span id="cgst">0.00</span></td></tr>
                 <tr id="sgstRow"><td>SGST</td><td class="text-right">₹<span id="sgst">0.00</span></td></tr>
                 <tr id="igstRow" style="display:none;"><td>IGST</td><td class="text-right">₹<span id="igst">0.00</span></td></tr>
@@ -213,6 +220,15 @@ Pradesh, 201102</p>
 
 <script>
     document.getElementById('invDate').valueAsDate = new Date();
+
+    function handleClientGSTIN() {
+    let gstInput = document.getElementById("clientGSTIN");
+
+    if (gstInput.value.trim() === "") {
+        gstInput.value = "N/A";
+    }
+}
+
 
     const stateCodes = {
         "01": "Jammu & Kashmir",
@@ -271,7 +287,7 @@ function addRow() {
       style="width:95%; resize:vertical;"></textarea>
     </td>
 
-    <td><input type="text" style="width:40px"></td>
+    <td><input type="text" style="width:60px"></td>
 
     <td><input type="number" value="1" class="qty" oninput="calculate()"></td>
 
@@ -279,9 +295,11 @@ function addRow() {
 
     <td>
       <select class="gst" onchange="calculate()">
+        <option value="0">0%</option>
         <option value="5">5%</option>
         <option value="12">12%</option>
-        <option value="18" selected>18%</option>
+         <option value="18" selected>18%</option>
+        <option value="28">28%</option>
       </select>
     </td>
 
@@ -334,7 +352,9 @@ let clientGST = document.getElementById("clientGSTIN").value.substring(0, 2);
             subTotal += amt;
             taxTotal += (amt * g) / 100;
         });
+            document.getElementById('taxableValue').innerText = subTotal.toFixed(2);
 
+        
         if (myGST === clientGST && myGST !== "") {
             document.getElementById('cgstRow').style.display = 'table-row';
             document.getElementById('sgstRow').style.display = 'table-row';
@@ -361,6 +381,7 @@ let clientGST = document.getElementById("clientGSTIN").value.substring(0, 2);
         document.getElementById('totalInWords').innerText = numberToWords(Math.round(final)) + " Rupees Only";
     }
 
+    
    function numberToWords(num) {
     if (num === 0) return "Zero";
 
