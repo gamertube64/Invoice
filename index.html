@@ -109,10 +109,7 @@
             <div class="bold">Buyer (Bill to)</div>
            <input type="text" id="buyerName" placeholder="Customer Name" class="bold" oninput="syncBuyer()"><br>
             <textarea rows="3" id="buyerAddress" placeholder="Customer Address" oninput="syncBuyer()"></textarea><br>
-            <strong>GSTIN/UIN:</strong> <input type="text" id="clientGSTIN"
-       placeholder="Customer GSTIN"
-       onblur="handleClientGSTIN()"
-         oninput="calculate()" maxlength="15">
+            <strong>GSTIN/UIN:</strong> <input type="text" id="clientGSTIN" placeholder="N/A" oninput="calculate()" style="width: 150px;">
         </div>
         <div class="w-50 padding-5">
             <div class="bold">Consignee (Ship to)</div>
@@ -220,14 +217,6 @@
 
 <script>
     document.getElementById('invDate').valueAsDate = new Date();
-
-    function handleClientGSTIN() {
-    let gstInput = document.getElementById("clientGSTIN");
-
-    if (gstInput.value.trim() === "") {
-        gstInput.value = "N/A";
-    }
-}
 
 
     const stateCodes = {
