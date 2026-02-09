@@ -64,6 +64,19 @@
     float: left;
     border-top: 1px dashed #000;
 }
+
+/* Chrome, Edge, Safari */
+.no-spinner::-webkit-inner-spin-button,
+.no-spinner::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+.no-spinner {
+  -moz-appearance: textfield;
+}
+
     </style>
 </head>
 <body>
@@ -81,11 +94,10 @@
 
     <div class="flex border-bottom">
         <div class="w-50 border-right padding-5">
-            <div class="bold"><h2>NAVEEN POWER SYSTEMS</h2></div>
-            <p>A-6, Laxmi Garden, Delhi - Saharanpur Road, Opp-Shiv Dharam
-                Kanta, 2 no, Loni Ghaziabad UP- 201102, Ghaziabad, Uttar
-                Pradesh, 201102</p>
-            <strong>GSTIN/UIN:</strong> <input type="text" value="09CEMPA6504H1ZK" id="myGSTIN" oninput="calculate()"style="width: 150px;"><br>
+            <div class="bold"><input type="text" placeholder="Company Name" class="bold"></div><br>
+            <textarea placeholder="Company Address" rows="3"></textarea><br>
+            <strong>Phone No.</strong>  <input type="number" placeholder="Phone No." class="no-spinner" style="width: 200px;"><br><br>
+            <strong>GSTIN/UIN:</strong> <input type="text" placeholder="Enter GSTIN/UIN" id="myGSTIN" oninput="calculate()"style="width: 150px;"><br>
         </div>
         <div class="w-50 padding-5">
             <div class="flex border-bottom">
@@ -109,6 +121,7 @@
             <div class="bold">Buyer (Bill to)</div>
            <input type="text" id="buyerName" placeholder="Customer Name" class="bold" oninput="syncBuyer()"><br>
             <textarea rows="3" id="buyerAddress" placeholder="Customer Address" oninput="syncBuyer()"></textarea><br>
+            <strong>Phone No.</strong>  <input type="number" placeholder="Phone No." class="no-spinner" style="width: 200px;"><br><br>
             <strong>GSTIN/UIN:</strong> <input type="text" id="clientGSTIN" placeholder="N/A" oninput="calculate()" style="width: 150px;">
         </div>
         <div class="w-50 padding-5">
@@ -176,13 +189,13 @@
             <div class="bold sin_line">Bank Details:</div><br>
           
     <div>Bank Name:</div>
-    <input type="text" value="Punjab & Sind Bank, LONI BORDER GHAZIABAD UP"><br><br>
+    <input type="text" placeholder="Enter Your Bank Name"><br><br>
 <div class="bank-row">
     <span>&nbsp;A/c No:</span>
-    <input type="text" value="07041100051269">
+    <input type="text" placeholder="Enter A/c No.">
 
     <span>IFSC:</span>
-    <input type="text" value="PSIB0000704">
+    <input type="text" placeholder="Enter IFSC Code">
 </div>
 
             <div style="margin-top: 10px;">
@@ -203,7 +216,7 @@
        
         <div class="w-50 text-right border-left padding-5" style="display: flex; flex-direction: column; justify-content: space-between;">
             
-            <div><span class="bold">NAVEEN POWER SYSTEMS</span></div>
+            <div><input type="text" placeholder="Your Company Name" class="bold" style="width:60%;"></input></div>
         <div><span class="rec-sig">Receiver Signatory</span>
             <div style="margin-bottom: 20px;">
                 Authorized Signatory
